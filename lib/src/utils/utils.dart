@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 
 //Funcion utilizada para validar el correo electronico
 String emailValidator(String value) {
@@ -13,8 +14,27 @@ String emailValidator(String value) {
 
 //Funcion utilizada para validar la contraseña
 String passwordValidator(String value){
-  if(value.isEmpty || value.length < 4)
-    return "*Longitud minima de 4";
+  if(value.isEmpty || value.length < 6)
+    return "*Longitud minima de 6";
   else
     return null;
+}
+
+//Funcion utilizada para mostrar alertas
+void mostrarAlerta(BuildContext context, String titulo, String mensaje){
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(titulo),
+        content: Text(mensaje),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('OK'),
+            onPressed: () => Navigator.of(context).pop()
+          )
+        ],
+      );
+    }
+  );
 }

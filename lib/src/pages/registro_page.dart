@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+//Usuario Provider
+import 'package:my_movie/src/providers/usuario_provider.dart';
 //Utilidades
 import 'package:my_movie/src/utils/utils.dart' as utils;
 //Widgets personalizados
@@ -6,18 +8,25 @@ import 'package:my_movie/src/widgets/custom_filled_button.dart';
 import 'package:my_movie/src/widgets/custom_text_field.dart';
 
 class RegistroPage extends StatefulWidget {
-
   @override
   _RegistroPageState createState() => _RegistroPageState();
 }
 
 class _RegistroPageState extends State<RegistroPage> {
+  //Para manejar los validators en el formualrio
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  //Variables donde voy a capturar lo ingresado por el usuario
   String _email;
   String _password;
 
+  //Color principal 
   Color primaryColor = Colors.deepOrangeAccent;
+
+  //Variable que contiene metodos de login y registro
+  UsuarioProvider _usuarioProvider = new UsuarioProvider();
+
+  bool _consultando = false;
 
   @override
   Widget build(BuildContext context) {
@@ -159,25 +168,42 @@ class _RegistroPageState extends State<RegistroPage> {
       padding: const EdgeInsets.only(top: 40.0),
       child: Container(
         child: CustomFilledButtom(
-          text: "LOGIN",
+          text: "REGISTRARSE",
           splashColor: Colors.white,
           highlightColor: primaryColor,
           fillColor: primaryColor,
           textColor: Colors.white,
-          onPressed: (){
-            if(!_formKey.currentState.validate()) return;
-            _formKey.currentState.save();
-            //Codigo si todo esta bien
-            print(_email);
-            print(_password);
-
-          },
+          onPressed: _consultando ? null :_submitDataForm,
         ),
         width: double.infinity,
         height: 50.0,
         margin: EdgeInsets.symmetric(horizontal: 20.0),
       ),
     );
+  }
+
+  void _submitDataForm() async{
+    if(!_formKey.currentState.validate()) return;
+    _formKey.currentState.save();
+    
+    //Codigo si todo esta bien
+    setState(() {
+      _consultando = true;
+    });
+    Map respuesta = await _usuarioProvider.nuevoUsuario(_email, _password);
+    
+    if(respuesta['ok']){
+      utils.mostrarAlerta(context, respuesta['message'], 'La cuenta fue creada');
+      //Acceso a la pagina del home
+      //Navigator.pushReplacementNamed(context, 'home');
+    }
+    else{
+      utils.mostrarAlerta(context, respuesta['message'], 'Ocurrio un error al crear la cuenta');
+    }
+
+    setState(() {
+      _consultando=false;
+    });
   }
 
 }
