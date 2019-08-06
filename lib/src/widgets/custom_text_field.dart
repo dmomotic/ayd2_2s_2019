@@ -19,7 +19,7 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         onSaved: onSaved,
         validator: validator,
-        autofocus: true,
+        autofocus: false,
         obscureText: obsecure,
         style: TextStyle(
           fontSize: 20,

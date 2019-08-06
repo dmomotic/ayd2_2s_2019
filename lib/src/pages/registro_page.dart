@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-
+//Utilidades
+import 'package:my_movie/src/utils/utils.dart' as utils;
+//Widgets personalizados
+import 'package:my_movie/src/widgets/custom_filled_button.dart';
 import 'package:my_movie/src/widgets/custom_text_field.dart';
 
 class RegistroPage extends StatefulWidget {
@@ -10,10 +13,9 @@ class RegistroPage extends StatefulWidget {
 
 class _RegistroPageState extends State<RegistroPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _autoValidate = false;
+
   String _email;
   String _password;
-  String errorMsg = "";
 
   Color primaryColor = Colors.deepOrangeAccent;
 
@@ -93,7 +95,7 @@ class _RegistroPageState extends State<RegistroPage> {
           Container(
             width: size.width * 0.85,
             margin: EdgeInsets.symmetric(vertical: 30.0),
-            padding: EdgeInsets.symmetric( vertical: 50.0 ),
+            padding: EdgeInsets.symmetric( vertical: 50.0),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(5.0),
@@ -106,76 +108,76 @@ class _RegistroPageState extends State<RegistroPage> {
                 )
               ]
             ),
-            child: Form(
-              key: _formKey,
-              autovalidate: _autoValidate,
-              child: Column(
-                children: <Widget>[
-                  CustomTextField(
-                    onSaved: (input) => _email = input,
-                    validator: emailValidator,
-                    icon: Icon(Icons.email),
-                    hint: "EMAIL",
-                  ),
-                  Divider(height: 25.0),
-                  CustomTextField(
-                    icon: Icon(Icons.lock),
-                    obsecure: true,
-                    onSaved: (input) => _password = input,
-                    validator: (input) => input.isEmpty ? "*Campo obligatorio" : null,
-                    hint: "PASSWORD",
-                  ),
-                  Divider(height: 50.0),
-                  Container(
-                    child: filledButton(
-                      "LOGIN",
-                      Colors.white,
-                      primaryColor,
-                      primaryColor,
-                      Colors.white,
-                      null
-                    ),
-                    height: 50.0,
-                    width: 0.4 * size.width,
-                  )
-                ],
-              ),
-            ),
+            child: _crearForm(size),
           ),
         ],
       ),
     );
   }
 
-  Widget filledButton(String text, Color splashColor, Color highlightColor, Color fillColor, Color textColor, void function()) {
-    return RaisedButton(
-      highlightElevation: 0.0,
-      splashColor: splashColor,
-      highlightColor: highlightColor,
-      elevation: 0.0,
-      color: fillColor,
-      shape: RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(30.0)),
-      child: Text(
-        text,
-        style: TextStyle(
-            fontWeight: FontWeight.bold, color: textColor, fontSize: 20),
+  Widget _crearForm(Size size){
+    return Form(
+      key: _formKey,
+      autovalidate: true,
+      child: Column(
+        children: <Widget>[
+          _crearEmailInput(),
+          _crearPasswordInput(),
+          _crearLoginButtom()
+        ],
       ),
-      onPressed: () {
-        function();
-      },
     );
   }
 
-  String emailValidator(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    if (value.isEmpty) return '*Required';
-    if (!regex.hasMatch(value))
-      return '*Enter a valid email';
-    else
-      return null;
+  Widget _crearEmailInput(){
+    return Padding(
+      padding: EdgeInsets.only(top: 10.0),
+      child: CustomTextField(
+        icon: Icon(Icons.email),
+        onSaved: (input) => _email = input,
+        validator: utils.emailValidator,
+        hint: "EMAIL",
+      ),
+    );
+  }
+
+  Widget _crearPasswordInput(){
+    return Padding(
+      padding: const EdgeInsets.only(top: 30.0),
+      child: CustomTextField(
+        icon: Icon(Icons.lock),
+        obsecure: true,
+        onSaved: (input) => _password = input,
+        validator: utils.passwordValidator,
+        hint: "PASSWORD",
+      ),
+    );
+  }
+
+  Widget _crearLoginButtom(){
+    return Padding(
+      padding: const EdgeInsets.only(top: 40.0),
+      child: Container(
+        child: CustomFilledButtom(
+          text: "LOGIN",
+          splashColor: Colors.white,
+          highlightColor: primaryColor,
+          fillColor: primaryColor,
+          textColor: Colors.white,
+          onPressed: (){
+            if(!_formKey.currentState.validate()) return;
+            _formKey.currentState.save();
+            //Codigo si todo esta bien
+            print(_email);
+            print(_password);
+
+          },
+        ),
+        width: double.infinity,
+        height: 50.0,
+        margin: EdgeInsets.symmetric(horizontal: 20.0),
+      ),
+    );
   }
 
 }
