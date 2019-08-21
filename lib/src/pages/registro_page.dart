@@ -52,8 +52,8 @@ class _RegistroPageState extends State<RegistroPage> {
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
           colors: <Color> [
-            Colors.orangeAccent,
-            Colors.deepOrange
+            Colors.deepPurple,
+            Colors.deepPurple
           ]
         )
       ),
