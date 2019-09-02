@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_movie/src/pages/home_page.dart';
+import 'package:my_movie/src/pages/login_page.dart';
 import 'package:my_movie/src/pages/registro_page.dart';
 import 'package:my_movie/src/pages/scroll_page.dart';
  
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
       routes: {
         'registro' : (BuildContext context) => RegistroPage(),
         'home'     : (BuildContext context) => HomePage(),
-        'scroll'   : (BuildContext context) => ScrollPage()
+        'scroll'   : (BuildContext context) => ScrollPage(),
+        'login'    : (BuildContext context) => LoginPage()
       },
 
       //Tema aplicacion

@@ -7,12 +7,12 @@ import 'package:my_movie/src/utils/utils.dart' as utils;
 import 'package:my_movie/src/widgets/custom_filled_button.dart';
 import 'package:my_movie/src/widgets/custom_text_field.dart';
 
-class RegistroPage extends StatefulWidget {
+class LoginPage extends StatefulWidget {
   @override
-  _RegistroPageState createState() => _RegistroPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _RegistroPageState extends State<RegistroPage> {
+class _LoginPageState extends State<LoginPage> {
   //Para manejar los validators en el formualrio
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -21,7 +21,7 @@ class _RegistroPageState extends State<RegistroPage> {
   String _password;
 
   //Color principal 
-  Color primaryColor = Colors.deepOrangeAccent;
+  Color primaryColor = Colors.redAccent;
 
   //Variable que contiene metodos de login y registro
   UsuarioProvider _usuarioProvider = new UsuarioProvider();
@@ -52,8 +52,8 @@ class _RegistroPageState extends State<RegistroPage> {
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
           colors: <Color> [
-            Colors.orangeAccent,
-            Colors.deepOrange
+            Colors.redAccent,
+            Colors.red
           ]
         )
       ),
@@ -79,7 +79,7 @@ class _RegistroPageState extends State<RegistroPage> {
           padding: EdgeInsets.only(top: 80.0),
           child: Column(
             children: <Widget>[
-              Icon( Icons.movie_filter, color: Colors.white, size: 100.0 ),
+              Icon( Icons.account_circle, color: Colors.white, size: 100.0 ),
               SizedBox( height: 10.0, width: double.infinity ),
               Text('My Movie App', style: TextStyle( color: Colors.white, fontSize: 25.0 ))
             ],
@@ -146,7 +146,7 @@ class _RegistroPageState extends State<RegistroPage> {
         onSaved: (input) => _email = input,
         validator: utils.emailValidator,
         hint: "EMAIL",
-        color: Colors.deepOrangeAccent
+        color: Colors.redAccent
       ),
     );
   }
@@ -160,7 +160,7 @@ class _RegistroPageState extends State<RegistroPage> {
         onSaved: (input) => _password = input,
         validator: utils.passwordValidator,
         hint: "PASSWORD",
-        color: Colors.deepOrangeAccent
+        color: Colors.redAccent
       ),
     );
   }
@@ -170,7 +170,7 @@ class _RegistroPageState extends State<RegistroPage> {
       padding: const EdgeInsets.only(top: 40.0),
       child: Container(
         child: CustomFilledButtom(
-          text: "REGISTRARSE",
+          text: "INGRESAR",
           splashColor: Colors.white,
           highlightColor: primaryColor,
           fillColor: primaryColor,
@@ -192,15 +192,14 @@ class _RegistroPageState extends State<RegistroPage> {
     setState(() {
       _consultando = true;
     });
-    Map respuesta = await _usuarioProvider.nuevoUsuario(_email, _password);
+    Map respuesta = await _usuarioProvider.login(_email, _password);
     
     if(respuesta['ok']){
-      utils.mostrarAlerta(context, respuesta['message'], 'La cuenta fue creada');
       //Acceso a la pagina del home
-      //Navigator.pushReplacementNamed(context, 'home');
+      Navigator.pushReplacementNamed(context, 'home');
     }
     else{
-      utils.mostrarAlerta(context, respuesta['message'], 'Ocurrio un error al crear la cuenta');
+      utils.mostrarAlerta(context, respuesta['message'], 'Usuario o contraseña incorrecto');
     }
 
     setState(() {

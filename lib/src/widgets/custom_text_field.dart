@@ -6,12 +6,14 @@ class CustomTextField extends StatelessWidget {
       this.hint,
       this.obsecure = false,
       this.validator,
-      this.onSaved});
+      this.onSaved,
+      this.color});
   final FormFieldSetter<String> onSaved;
   final Icon icon;
   final String hint;
   final bool obsecure;
   final FormFieldValidator<String> validator;
+  final Color color;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,20 +32,20 @@ class CustomTextField extends StatelessWidget {
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide: BorderSide(
-                color: Theme.of(context).primaryColor,
+                color: color,
                 width: 2,
               ),
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide: BorderSide(
-                color: Theme.of(context).primaryColor,
+                color: color,
                 width: 3,
               ),
             ),
             prefixIcon: Padding(
               child: IconTheme(
-                data: IconThemeData(color: Theme.of(context).primaryColor),
+                data: IconThemeData(color: color),
                 child: icon,
               ),
               padding: EdgeInsets.only(left: 30, right: 10),

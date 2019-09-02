@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_movie/src/pages/home_page.dart';
+import 'package:my_movie/src/pages/login_page.dart';
 import 'package:my_movie/src/pages/registro_page.dart';
 
 class ScrollPage extends StatelessWidget {
@@ -9,9 +9,9 @@ class ScrollPage extends StatelessWidget {
       body: PageView(
         children: <Widget>[
           RegistroPage(),
-          HomePage()
+          LoginPage()
         ],
-        scrollDirection: Axis.vertical,
+        scrollDirection: Axis.horizontal,
       ),
     );
   }
