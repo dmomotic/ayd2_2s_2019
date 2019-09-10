@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'My Movie',
+      title: 'PRUEBA CODEMAGIC',
 
       //Ruta inicial
       initialRoute: 'scroll',
