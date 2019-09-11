@@ -29,6 +29,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+      drawer: _drawer(context)
     );
   }
 
@@ -49,6 +50,39 @@ class HomePage extends StatelessWidget {
           );
         }
       },
+    );
+  }
+
+  Widget _drawer(BuildContext context){
+    return Drawer(
+      child: ListView(
+        children: <Widget>[
+          UserAccountsDrawerHeader(
+            accountName: Text("User name"),
+            accountEmail: Text("User email"),
+            currentAccountPicture: CircleAvatar(
+              backgroundImage: NetworkImage("https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png"),
+            ),
+            decoration: BoxDecoration(
+              color: Colors.blueAccent,
+              image: DecorationImage(
+                fit: BoxFit.fill,
+                image: NetworkImage("https://image.freepik.com/free-photo/river-foggy-mountains-landscape_1204-511.jpg")
+              )
+            ),
+          ),
+          ListTile(
+            title: Text("Ocultar"),
+            trailing: Icon(Icons.arrow_back),
+            onTap: () => Navigator.of(context).pop(),
+          ),
+          Divider(),
+          ListTile(
+            title: Text("Cerrar sesion"),
+            trailing: Icon(Icons.cancel),
+          )
+        ],
+      )
     );
   }
 }
