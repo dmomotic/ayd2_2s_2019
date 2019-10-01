@@ -9,6 +9,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final String _email = ModalRoute.of(context).settings.arguments;
+    
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -29,7 +31,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      drawer: _drawer(context)
+      drawer: _drawer(context, _email)
     );
   }
 
@@ -53,13 +55,13 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _drawer(BuildContext context){
+  Widget _drawer(BuildContext context, String email){
     return Drawer(
       child: ListView(
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName: Text("User name"),
-            accountEmail: Text("User email"),
+            accountName: Text("User email"),
+            accountEmail: Text(email),
             currentAccountPicture: CircleAvatar(
               backgroundImage: NetworkImage("https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png"),
             ),

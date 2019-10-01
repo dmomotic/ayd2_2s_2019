@@ -196,7 +196,7 @@ class _LoginPageState extends State<LoginPage> {
     
     if(respuesta['ok']){
       //Acceso a la pagina del home
-      Navigator.pushReplacementNamed(context, 'home');
+      Navigator.pushReplacementNamed(context, 'home', arguments: _email);
     }
     else{
       utils.mostrarAlerta(context, respuesta['message'], 'Usuario o contraseña incorrecto');
