@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'PRUEBA CODEMAGIC',
 
       //Ruta inicial
-      initialRoute: 'scroll',
+      initialRoute: 'home',
 
       //Rutas de nuestra aplicacion
       routes: {
