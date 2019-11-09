@@ -95,6 +95,15 @@ class PeliculasProvider{
 
   }
 
+  Future<List<Pelicula>> getSimilares(String peliID) async{
+    final url = Uri.https(_url, '3/movie/$peliID/similar', {
+      'api_key'  : _apiKey,
+      'language' : _language,
+    });
+
+    return _procesarRespuesta(url);
+  }
+
   Future<String> getTrailer(String peliId) async{
     final url = Uri.https(_url, '3/movie/$peliId/videos', {
       'api_key'  : _apiKey,

@@ -24,7 +24,9 @@ class PeliculaDetalle extends StatelessWidget {
                   padding: EdgeInsets.all(15.0),
                   child: Text('ACTORES', style: TextStyle(fontSize: 50, color: Colors.blueGrey)),
                 ),
-                _crearCasting(pelicula)
+                _crearCasting(pelicula),
+                SizedBox(height: 15.0),
+                _similaresOption(context, pelicula)
               ]),
             )
           ],
@@ -188,6 +190,81 @@ class PeliculaDetalle extends StatelessWidget {
           Text(actor.name, overflow: TextOverflow.ellipsis,)
         ],
       ),
+    );
+  }
+
+  Widget _similares(BuildContext context, Pelicula pelicula){
+    final peliProvider = new PeliculasProvider();
+    return FutureBuilder(
+      future: peliProvider.getSimilares(pelicula.id.toString()),
+      builder: (BuildContext context, AsyncSnapshot<List<Pelicula>> snapshot) {
+        if(snapshot.hasData){
+          return GridView.count(
+            padding: EdgeInsets.only(left: 10.0, right: 10.0),
+            crossAxisCount: 2,
+            crossAxisSpacing: 4.0,
+            mainAxisSpacing: 4.0,
+            primary: false,
+            shrinkWrap: true,
+            children: snapshot.data.map((pelicula){
+              return _buildResultCard(context, pelicula);
+            }).toList(),
+          );
+        }
+        if(snapshot.connectionState == ConnectionState.waiting){
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return Container();
+      },
+    );
+  }
+
+  Widget _buildResultCard(BuildContext context, Pelicula pelicula) {
+    pelicula.uniqueId = '${pelicula.id}-similar';
+    return GestureDetector(
+      onTap: (){
+        FocusScope.of(context).requestFocus(FocusNode());
+        Navigator.pushNamed(context, 'detalle', arguments: pelicula);
+      },
+      behavior: HitTestBehavior.translucent,
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        elevation: 2.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Hero(
+              tag: pelicula.uniqueId,
+              child: Container(
+                height: 100,
+                child: FadeInImage(
+                  image: NetworkImage(pelicula.getPosterImg()),
+                  placeholder: AssetImage('assets/img/no-image.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 5.0, left: 5.0),
+              child: Text(pelicula.title, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.grey)),
+            ),
+          ],
+        )
+      ),
+    );
+  }
+
+  Widget _similaresOption(BuildContext context, Pelicula pelicula){
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.all(15.0),
+          child: Text('SIMILARES', style: TextStyle(fontSize: 50, color: Colors.blueGrey)),
+        ),
+        _similares(context, pelicula)
+      ],
     );
   }
 
