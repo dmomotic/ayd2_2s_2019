@@ -95,4 +95,16 @@ class PeliculasProvider{
 
   }
 
+  Future<String> getTrailer(String peliId) async{
+    final url = Uri.https(_url, '3/movie/$peliId/videos', {
+      'api_key'  : _apiKey,
+      'language' : _language,
+    });
+
+    final respuesta = await http.get(url);
+    final decodedData = json.decode(respuesta.body);
+
+    final videoId = decodedData['results'][0]['key'].toString() ?? '';
+    return videoId;
+  }
 }
