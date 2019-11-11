@@ -20,6 +20,16 @@ class PeliculasProvider{
   //Creacion del Stream
   final _popularesStreamController = StreamController<List<Pelicula>>.broadcast();
 
+  //Creacion de constructor privado
+  PeliculasProvider._privateConstructor();
+  //Instancia estatica que sera retornada
+  static final PeliculasProvider _peliculasProvider = PeliculasProvider._privateConstructor();
+  //Al instacinar la clase PeliculasProvider se retorna la misma instancia (objeto)
+  factory PeliculasProvider(){
+    return _peliculasProvider;
+  }
+
+
   void disposeStreams(){
     _popularesStreamController?.close();
   }
