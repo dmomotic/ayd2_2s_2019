@@ -88,7 +88,7 @@ class HomePage extends StatelessWidget {
           ListTile(
             title: Text("Cerrar sesion"),
             trailing: Icon(Icons.cancel),
-            onTap: () => Navigator.pushReplacementNamed(context, 'login'),
+            onTap: () => Navigator.pushReplacementNamed(context, 'scroll'),
           )
         ],
       )

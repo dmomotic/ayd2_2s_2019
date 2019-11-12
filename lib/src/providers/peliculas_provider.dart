@@ -17,8 +17,7 @@ class PeliculasProvider{
 
   List<Pelicula> _populares = new List();
 
-  //Creacion del Stream
-  final _popularesStreamController = StreamController<List<Pelicula>>.broadcast();
+  
 
   //Creacion de constructor privado
   PeliculasProvider._privateConstructor();
@@ -34,9 +33,16 @@ class PeliculasProvider{
     _popularesStreamController?.close();
   }
 
+  //Creacion del Stream, encargado de realizar el Broadcast
+  final _popularesStreamController = StreamController<List<Pelicula>>.broadcast();
+
+  //Sink para añadir datos
   Function(List<Pelicula>) get popularesSink => _popularesStreamController.sink.add;
 
+  //Flujo de datos que serà emitido
   Stream<List<Pelicula>> get popularesStream => _popularesStreamController.stream;
+
+
 
   Future<List<Pelicula>> getEnCines() async {
 
